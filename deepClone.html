@@ -11,6 +11,7 @@
     //typeof可能返回的类型: function, object(array,object,null),boolean,string,number,undefined
     //深度克隆需要判断array类型，所以用下列方法：
     //获取一个对象的类型，Object.prototype.toString.call().slice(8,-1):Function, Array, Object, Number, String, Boolean, Undefined, Null
+    //参考链接：https://www.cnblogs.com/jq-melody/p/4499333.html
     //代码实现：
     function DeepClone(obj) {
       var result;
