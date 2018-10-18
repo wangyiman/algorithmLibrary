@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var arr = [1,2,2,33,44,1,2,3];
+    //先排序，再去重，只需要一遍循环
+    function removeDuplicate(arr) {
+      var results = [];
+      arr.sort();
+      for(var i = 1;i <= arr.length;i++) {
+        //不相等，说明遍历到了相同的元素中的最后后又遍历了一个新的元素，把上一个的push进来
+        if(arr[i] !== arr[i-1]) {
+          results.push(arr[i-1]);
+        }
+      }
+      return results;
+    }
+    console.log(removeDuplicate(arr));
+  </script>
+</body>
+</html>

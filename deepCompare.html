@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    //初始比较，对象的深度比较
+    //如果有一个不等，就返回false
+    //都相等，返回true
+    function compare(a, b) {
+      if(typeof a === 'object') {
+        if(typeof b !== 'object') return false;
+        for(let key of Object.keys(a)) {
+          if(!compare(a[key], b[key])) {
+            return false;
+          }
+        }
+      } else {
+        return a === b;
+      }
+
+      return true;
+    }
+
+    var apple1 = {
+      name: 'smallApple',
+      size: {
+        x: 10,
+        y: 5,
+        z:10
+      },
+      quantity: '10',
+      unit: 'kg',
+    }
+
+    var apple2 = {
+      name: 'smallApple',
+      size: {
+        x: 10,
+        y: 5,
+        z:10
+      },
+      quantity: '10',
+      unit: 'kg',
+    }
+
+    console.log('比较两个苹果对象是否一摸一样');
+    console.log(compare(apple1, apple2));//true
+    //忽然新来一个需求，要比较name,size,unit相同的才算一样的苹果，也就是比较的时候不能把quantity计算进去，
+    function compare2(a, b) {
+      var exceptAttrs = ['quantity'];
+      if(typeof a === 'object') {
+        if(typeof b !== 'object') return false;
+        for(let key of Object.keys(a)) {
+          if(!exceptAttrs.includes(key) && !compare2(a[key], b[key])) {
+            return false;
+          }
+        }
+      } else {
+        return a === b;
+      }
+
+      return true;
+    }
+
+    var apple3 = {
+      name: 'smallApple',
+      size: {
+        x: 10,
+        y: 5,
+        z:10
+      },
+      quantity: '20',
+      unit: 'kg',
+    }
+
+    var apple4 = {
+      name: 'smallApple',
+      size: {
+        x: 10,
+        y: 5,
+        z:10
+      },
+      quantity: '10',
+      unit: 'kg',
+    }
+
+    console.log('除去指定的属性，比较两个苹果对象是否一摸一样');
+    console.log(compare2(apple3, apple4));//true
+    //有了上述的基础，又来了新的需求
+    //给了一系列的水果，要求把这些水果按名称在页面上显示出来，相同类型（除了quantity外的所有属性都一样）
+    //的只显示一个即可，还要把quantity合并
+    //这个需求涉及到以下知识点：
+    //1.排序；2.去重；3.对象的深度比较。
+    //水果集合
+    //小苹果两个，小香蕉两个，大梨1个
+    var fruits = [
+      {
+        name: 'smallApple',
+        size: {
+          x: 10,
+          y: 5,
+          z:10
+        },
+        quantity: '10',
+        unit: 'kg',
+      },
+      {
+        name: 'smallApple',
+        size: {
+          x: 10,
+          y: 5,
+          z:10
+        },
+        quantity: '20',
+        unit: 'kg',
+      },
+      {
+        name: 'bigPear',
+        size: {
+          x: 20,
+          y: 10,
+          z:15
+        },
+        quantity: '40',
+        unit: 'kg',
+      },
+      {
+        name: 'smallBanana',
+        size: {
+          x: 10,
+          y: 5,
+          z:10
+        },
+        quantity: '20',
+        unit: 'kg',
+      },
+      {
+        name: 'smallBanana',
+        size: {
+          x: 10,
+          y: 5,
+          z:10
+        },
+        quantity: '40',
+        unit: 'kg',
+      }
+    ];
+
+    function removeDuplicateFruits(fruits) {
+      //排序
+      fruits.sort((a, b) => {
+        return a.name - b.name;
+      });
+      //去重
+      var allQuantity;
+      var finalFruits = [];
+      for(var i = 1;i <= fruits.length;i++) {
+        if(deepCompare3(fruits[i], fruits[i-1])) {
+          allQuantity = Number(fruits[i].quantity) + Number(fruits[i-1].quantity);
+        } else {
+          fruits[i-1].quantity = allQuantity ? allQuantity.toString():fruits[i-1].quantity.toString();
+          finalFruits.push(fruits[i-1]);
+          allQuantity = undefined;
+        }
+      }
+
+      return finalFruits; 
+    }
+
+    function deepCompare3(a, b) {
+      var exceptAttrs = ['quantity'];
+      if(typeof a === 'object') {
+        if(typeof b !== 'object') return false;
+        for(let key of Object.keys(a)) {
+          if(!exceptAttrs.includes(key) && !deepCompare3(a[key], b[key])) {
+            return false;
+          }
+        }
+      } else {
+        return a === b;
+      }
+
+      return true;
+    }
+    console.log('比较水果是否是同一类的，合并同一类的水果');
+    console.log(removeDuplicateFruits(fruits));
+    //上述有个缺陷，输入了一个对象，直接改变了这个输入的对象的属性值，因为又涉及到了对象的深度克隆。
+  </script>
+</body>
+</html>

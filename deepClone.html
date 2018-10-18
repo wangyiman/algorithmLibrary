@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    //typeof可能返回的类型: function, object(array,object,null),boolean,string,number,undefined
+    //深度克隆需要判断array类型，所以用下列方法：
+    //获取一个对象的类型，Object.prototype.toString.call().slice(8,-1):Function, Array, Object, Number, String, Boolean, Undefined, Null
+    //代码实现：
+    function DeepClone(obj) {
+      var result;
+      if(isClass(obj) === 'array') {
+        result = []
+      } else if(isClass(obj) === 'object') {
+        result = {};
+      } else {
+        return obj;
+      }
+
+      for(var key in obj) {
+        if(isClass(obj[key])  === 'array' || isClass(obj[key])  === 'object' ) {
+          result[key] = arguments.callee(obj[key]);
+        } else {
+          result[key] = obj[key];
+         }
+      }
+
+      return result;
+    }
+
+    function isClass(val) {
+      if(val === null) return 'null';
+      if(val === undefined) return 'undefined';
+      if(Object.prototype.toString.call(val).slice(8,-1) === 'Array') {
+        return 'array';
+      } 
+
+      if(Object.prototype.toString.call(val).slice(8,-1) === 'Object') {
+        return 'object';
+      }
+    }
+
+    var obj = {
+      name: 'zhangsan',
+      age: '12',
+      friends: ['lisi', 'wangwu']
+    }
+
+    var ss = DeepClone(obj);
+    obj.name = 'wangyiman';
+    console.log(ss);
+  </script>
+</body>
+</html>
