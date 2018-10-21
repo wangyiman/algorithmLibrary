@@ -9,6 +9,7 @@
 <body>
   <script>
     var arr = [1,2,2,33,44,1,2,3];
+    //去重思路1
     //先排序，再去重，只需要一遍循环
     function removeDuplicate(arr) {
       var results = [];
@@ -22,6 +23,43 @@
       return results;
     }
     console.log(removeDuplicate(arr));
+    //去重思路2
+    //指针移动，直到找到当前循环中没有重复元素的
+    function removeDuplicate2(arr) {
+      let len = arr.length;
+      let results = [];
+      for(var i = 0;i < len;i++) {
+        for(var j=i + 1;j<len;j++) {
+          if(arr[i] === arr[j]) {
+            j = ++i;
+          }
+        }
+        results.push(arr[i]);
+      }
+
+      return results;
+    }
+    var arra = [1,2,3,4,4,1,1,2,1,1,1];
+    console.log(removeDuplicate2(arra));    //返回[3,4,2,1]
+    //去重思路3
+    //往前移动，发现与当前重复的，就删除
+    function removeDuplicate3(arr) {
+      let len = arr.length;
+      let results = [];
+      for(var i = 0;i < len;i++) {
+        for(var j = i + 1;j < len;j++) {
+          if(arr[i] === arr[j]) {
+            arr.splice(j,1);
+            j--;
+            len--;
+          }
+        }
+      }
+
+      return arr;
+    }
+    var a = [1,2,3,4,5,6,5,3,2,4,56,4,1,2,1,1,1,1,1,1,];
+    console.log(removeDuplicate3(a));
   </script>
 </body>
 </html>
