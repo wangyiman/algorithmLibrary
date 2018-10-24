@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function TreeNode(x) {
+      this.val = x;
+      this.left = null;
+      this.right = null;
+    } 
+
+    function HasSubtree(pRoot1, pRoot2)
+    {
+        // write code here
+        if(!pRoot1 || !pRoot2) return false;
+        let result;
+        if(pRoot1.val === pRoot2.val) {
+            result = doesAllSame(pRoot1, pRoot2);
+        }
+        if(!result) {
+            result = HasSubtree(pRoot1.left, pRoot2);
+        }
+        if(!result) {
+            result = HasSubtree(pRoot1.right, pRoot2);
+        }
+        
+        return result;
+    }
+
+    function doesAllSame(originNode, outerNode){
+        //首先要判断相不相等，不相等，进行不下去
+        // if(originNode.val !== outerNode.val) return false; 
+        // if((originNode.left && outerNode.left) || (originNode.right && outerNode.right)) 
+        //   return doesAllSame(originNode.left, outerNode.left) && doesAllSame(originNode.right, outerNode.right);
+        // else if((originNode.left || outerNode.left) || (originNode.right || outerNode.right)) return false;
+        // else return true;
+        if(!outerNode) return true;
+        if(!originNode) return false;
+        if(outerNode.val !== originNode.val) return false;
+        return doesAllSame(originNode.left, outerNode.left) && doesAllSame(originNode.right, outerNode.right);
+    }
+
+    var tree1 = new TreeNode(1);
+    tree1.left = new TreeNode(2);
+    tree1.right = new TreeNode(3);
+    tree1.right.left = new TreeNode(3);
+
+    var tree2 = new TreeNode(1);
+    tree2.left = new TreeNode(2);
+
+    console.log(HasSubtree(tree1, tree2));
+
+  </script>
+</body>
+</html>
