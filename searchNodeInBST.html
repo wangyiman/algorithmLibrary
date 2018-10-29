@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    //在BST中查找特定的值
+    function TreeNode(val) {
+      this.val = val;
+      this.left = null;
+      this.right = null;
+    }
+    function searchNode(root, key) { 
+      if(root.val === key) return true;
+      var result = false;
+      if(root.val > key) {
+        result = _searchNode(root.left, key) 
+      } else {
+        result = _searchNode(root.right, key) 
+      }
+
+      return result;
+
+    }
+
+    function _searchNode(node, key) {
+      if(!node) return false;
+      if(node.val > key) {
+        return _searchNode(node.left, key)
+      } else if(node.val < key){
+        return _searchNode(node.right, key);
+      } else if(node.val === key) {
+        return true;
+      }
+    }
+
+    var root = new TreeNode(5);
+    root.left = new TreeNode(3);
+    root.right = new TreeNode(6);
+    root.left.left = new TreeNode(1);
+
+    console.log(searchNode(root, 3));
+  </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    //在BST中找到最小值
+    function TreeNode(val) {
+      this.val = val;
+      this.left = null;
+      this.right = null;
+    }
+    function findMin(root) { 
+      // first way 
+      // if(!root) return null;
+      // var min = root.val;
+      // while(root) {
+      //   root = root.left;
+      //   if(root && (root.val < min)) {
+      //     min = root.val
+      //   }
+      // }
+      // return min;
+
+      // second way
+      if(!root) return null;
+      while(root.left) {
+        root = root.left;
+      }
+      return root.val;
+    }
+
+    var root = new TreeNode(5);
+    root.left = new TreeNode(3);
+    root.right = new TreeNode(6);
+    root.left.left = new TreeNode(1);
+
+    console.log(findMin(root));
+  </script>
+</body>
+</html>
