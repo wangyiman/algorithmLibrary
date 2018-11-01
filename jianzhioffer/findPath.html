@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function TreeNode(x) {
+      this.val = x;
+      this.left = null;
+      this.right = null;
+    }
+    //输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。
+    //路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
+    var path = [];
+    var stack = [];
+    function findPath(root, expectNumber) {
+      if(!root) return [];
+      stack.push(root.val);
+      getPath(root, expectNumber);
+      return path;
+    }
+
+    function getPath(node, expectNumber) {
+      if(node.val === expectNumber) {
+        //wrong
+        //path.push(stack);
+        path.push(stack.slice());
+      }
+
+      if(node.left && expectNumber - node.val > 0) {
+        stack.push(node.left.val);
+        getPath(node.left, expectNumber - node.val);
+      }
+
+      if(node.right && expectNumber - node.val > 0) {
+        stack.push(node.right.val);
+        getPath(node.right, expectNumber - node.val);
+      }
+
+      stack.pop();
+    }
+
+    var tree = new TreeNode(3);
+    tree.left = new TreeNode(4);
+    tree.right = new TreeNode(5);
+    console.log(findPath(tree, 7));
+  </script>
+</body>
+</html>

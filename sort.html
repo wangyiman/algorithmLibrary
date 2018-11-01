@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <script>
+      //排序算法复习
+      //稳定算法
+      //冒泡
+      function bubleSort(arr) {
+        var temp;
+        var length = arr.length;
+        for(var i = length;i > 0;i--) {
+          for(var j = 1;j < i;j++) {
+            if(arr[j] < arr[j-1]) {
+              temp = arr[j];
+              arr[j] = arr[j-1];
+              arr[j-1] = temp;
+            }
+          }
+        }
+        return arr;
+      }
+      var arr = [7,6,5,4,3,2,1];
+      console.log(bubleSort(arr));
+      //选择排序
+      function selectSort(arr) {
+        var temp;
+        var length = arr.length;
+        for(var i = 0;i < length;i++) {
+          for(var j = length - 1;j > i;j--) {
+            if(arr[j-1] > arr[j]) {
+              temp = arr[j];
+              arr[j] = arr[j-1];
+              arr[j-1] = temp;
+            }
+          }
+        }
+        return arr;
+      }
+
+      var arr2 = [7,6,5,4,3,2,1];
+      console.log(bubleSort(arr2));
+      //插入
+      function insertSort(arr) {
+        
+      }
+      //不稳定算法
+      //选择排序
+      //快排
+    </script>
+</body>
+</html>
