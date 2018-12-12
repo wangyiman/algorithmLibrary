@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。
+    // 思路：
+    // 中序遍历，同时，找到当前节点的上一个节点，修改指向变成链表
+    // 按照这个思路，用非递归找上一个节点比较容易
+    // 或者用递归申请全局前一个节点的变量
+    function TreeNode(x) {
+      this.val = x;
+      this.left = null;
+      this.right = null;
+    }
+
+    //复习树的中序遍历
+    //递归
+    function centerOrder(tree) {
+      var arr = [];
+      if(tree.left) {
+        arr = _centerOrder(arr, tree.left);
+      }
+      if(tree) {
+        arr.push(tree.val);
+      }
+      if(tree.right) {
+        arr = _centerOrder(arr, tree.right);
+      }
+
+      return arr;
+    }
+
+    function _centerOrder(arr, node) {
+      if(!node.left && !node.right) {
+        arr.push(node.val);
+        return arr;
+      }
+      if(node.left) {
+        _centerOrder(arr, node.left);
+      }
+
+      if(node) {
+        arr.push(node.val);
+      }
+
+      if(node.right) {
+        _centerOrder(arr, node.right);
+      }
+
+      return arr;
+    }
+
+    //非递归的中序遍历
+    //迭代
+    function centerOrder2(node) {
+      let arr = [];
+      let stack = [];
+
+      let current = node;
+      while(stack.length !== 0 || current !== null) {
+        while(current) {
+          stack.push(current);
+          current = current.left;
+        }
+        let curr = stack.pop();
+        arr.push(curr.val);
+
+        if(curr.right) {
+          current = curr.right;
+        } else {
+          current = null;
+        }
+      }
+
+      return arr;
+    }
+
+    //修改一下非递归的中序遍历实现最终算法
+    function Convert(node) {
+      let arr = [];
+      let stack = [];
+
+      let prevNode = null;
+      let resultNode = null;
+
+      let current = node;
+      while(stack.length !== 0 || current !== null) {
+        while(current) {
+          stack.push(current);
+          current = current.left;
+        }
+        let curr = stack.pop();
+        if(prevNode) {
+          prevNode.right = curr;
+          curr.left = prevNode;
+        } else {
+          resultNode = curr; 
+        }
+        arr.push(curr);
+        prevNode = curr;
+
+        if(curr.right) {
+          current = curr.right;
+        } else {
+          current = null;
+        }
+      }
+
+      return resultNode;
+    }
+
+    let tree1 = new TreeNode(10);
+    tree1.left = new TreeNode(8);
+    tree1.right = new TreeNode(12);
+    tree1.right.left = new TreeNode(11);
+
+    let tree2 = new TreeNode(10);
+
+    let tree3 = new TreeNode(10);
+    tree3.left = new TreeNode(6);
+    tree3.left.left = new TreeNode(4);
+    tree3.left.right = new TreeNode(8);
+    tree3.right = new TreeNode(14);
+    tree3.right.left = new TreeNode(12);
+    tree3.right.right = new TreeNode(16);
+
+    console.log(tree1);
+    console.log(centerOrder(tree1));
+    console.log(centerOrder2(tree1));
+    console.log('第三棵树');
+    console.log(centerOrder2(tree3));
+
+
+    console.log(Convert(tree1));
+    console.log(Convert(tree2));
+    console.log('第三棵树');
+    console.log(Convert(tree3));
+    
+
+
+    //参考链接：https://blog.csdn.net/gxx_csdn/article/details/78975083
+
+  </script>
+</body>
+</html>
